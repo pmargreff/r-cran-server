@@ -7,7 +7,7 @@ class GzipReaderTest < ActiveSupport::TestCase
     @file_path = "/tmp/file.gz"
     compressed_content = ActiveSupport::Gzip.compress(@content)
 
-    Tempfile.open(@file_path, binmode: true) { |file| file.write(compressed_content) }
+    File.open(@file_path, "wb") { |file| file.write(compressed_content) }
   end
 
   def teardown
