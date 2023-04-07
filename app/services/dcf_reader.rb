@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "dcf"
 
-class DcfParser
+class DcfReader
   attr_accessor :content
 
   def call(content)

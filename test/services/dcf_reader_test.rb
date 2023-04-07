@@ -1,7 +1,8 @@
 require "test_helper"
 
-class DcfParserTest < ActiveSupport::TestCase
+class DcfReaderTest < ActiveSupport::TestCase
   def setup
+    #TODO: extract these strings to fixtures
     @packages_content =<<EOF
 Package: A3
 Version: 1.0.0
@@ -21,7 +22,7 @@ EOF
   end
 
   test "parses a array of packages" do
-    result = DcfParser.new().call(@packages_content)
+    result = DcfReader.new().call(@packages_content)
 
     assert_equal result.size, 2
 
@@ -35,7 +36,7 @@ EOF
   end
 
   test "parses a package" do
-    result = DcfParser.new().call(@description_content)
+    result = DcfReader.new().call(@description_content)
 
     assert_equal result.size, 1
 
