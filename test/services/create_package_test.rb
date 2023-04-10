@@ -26,15 +26,19 @@ class CreatePackageTest < ActiveSupport::TestCase
 
     assert result.valid?
 
+    # package assertions
     assert_equal Package.count, 1
     assert_equal @params["Package"], result.name
     assert_equal @params["Title"], result.title
-    assert_equal @params["License"], result.license
     assert_equal @params["MD5sum"], result.md5
     assert_equal @params["Maintainer"], result.maintainer
     assert_equal @params["Depends"], result.dependencies
     assert_equal @params["Date/Publication"].to_datetime, result.publication_date
     assert_equal @params["Version"], result.version
     assert_equal @params["Author"], result.author
+
+    # license assertions
+    assert_equal License.count, 1
+    assert_equal @params["License"], result.license.name
   end
 end
