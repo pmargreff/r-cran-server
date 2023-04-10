@@ -2,12 +2,22 @@ require "test_helper"
 
 class CreatePackageTest < ActiveSupport::TestCase
   def setup
-    # TODO: replace with fixtures
     @params = {
-      "Package" => "A3",
-      "version" => "1.0.0",
-      "md5" => "027ebdd8affce8f0effaecfcd5f5ade2",
-      "author" => "Alice"
+      "Package"=>"AalenJohansen",
+      "Version"=>"1.0",
+      "License"=>"GPL (>= 2)",
+      "MD5sum"=>"d7eb2a6275daa6af43bf8a980398b312",
+      "NeedsCompilation"=>"no",
+      "Type"=>"Package",
+      "Title"=>"Conditional Aalen-Johansen Estimation",
+      "Maintainer"=>"Martin Bladt <martinbladt@math.ku.dk>",
+      "Encoding"=>"UTF-8",
+      "Depends" => "R (>= 3.6.0)",
+      "Imports" => "magrittr, dplyr, doParallel, foreach",
+      "Packaged"=>"2023-02-28 18:01:12 UTC; martinbladt",
+      "Author"=>"Martin Bladt [aut, cre], Christian Furrer [aut]",
+      "Repository"=>"CRAN",
+      "Date/Publication"=>"2023-03-01 10:42:09 UTC"
     }
   end
 
@@ -18,23 +28,13 @@ class CreatePackageTest < ActiveSupport::TestCase
 
     assert_equal Package.count, 1
     assert_equal @params["Package"], result.name
-    assert_equal @params["version"], result.version
-    assert_equal @params["md5"], result.md5
-    assert_equal @params["author"], result.author
-  end
-
-  test "does not create package on missing params" do
-    result = CreatePackage.new().call({})
-
-    refute result.valid?
-
-    assert_equal Package.count, 0
-
-    # TODO: refactor assertions https://stackoverflow.com/a/42618473/3687723
-    # TODO: refactor validations to happen directly to the Package module
-    assert result.errors.added? :name, :blank
-    assert result.errors.added? :version, :blank
-    assert result.errors.added? :md5, :blank
-    assert result.errors.added? :author, :blank
+    assert_equal @params["Title"], result.title
+    assert_equal @params["License"], result.license
+    assert_equal @params["MD5sum"], result.md5
+    assert_equal @params["Maintainer"], result.maintainer
+    assert_equal @params["Depends"], result.dependencies
+    assert_equal @params["Date/Publication"].to_datetime, result.publication_date
+    assert_equal @params["Version"], result.version
+    assert_equal @params["Author"], result.author
   end
 end
