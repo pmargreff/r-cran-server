@@ -18,6 +18,8 @@ gem "puma", "~> 5.0"
 #Parses Debian Control Files
 gem "treetop-dcf"
 
+# Background jobs with no concurrency limits yay
+gem 'sidekiq'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
