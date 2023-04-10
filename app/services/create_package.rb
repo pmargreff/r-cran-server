@@ -4,26 +4,46 @@ class CreatePackage
 
   def call(params)
     @params = params
-    ActiveRecord::Base.transaction do
-      license = find_or_create_license
 
-      Package.create!(
-        name:             params["Package"],
-        title:            params["Title"],
-        license:          license,
-        md5:              params["MD5sum"],
-        maintainer:       params["Maintainer"],
-        dependencies:     params["Depends"], #TODO: add imports
-        publication_date: params["Date/Publication"].to_datetime,
-        version:          params["Version"],
-        author:           params["Author"]
-      )
+    ActiveRecord::Base.transaction do
+      license = find_or_create_license!
+      authors = find_or_create_authors!
+
+      create_package!(license: license, authors: authors)
     end
   end
 
   private
 
-  def find_or_create_license
+
+  def create_package!(license:, authors:)
+    Package.create!(
+      name:             @params["Package"],
+      title:            @params["Title"],
+      md5:              @params["MD5sum"],
+      maintainer:       @params["Maintainer"],
+      dependencies:     @params["Depends"], #TODO: add imports
+      publication_date: @params["Date/Publication"].to_datetime,
+      version:          @params["Version"],
+      license:          license,
+      authors:          authors
+    )
+  end
+
+  def find_or_create_license!
     License.find_or_create_by!(name: @params["License"])
+  end
+
+  def find_or_create_authors!
+    # sanitizes from author roles
+    # ex: alice [aur, cre]
+    authors = @params["Author"].gsub(/\[.*?\]/, "")
+
+    authors.split(",").map do |name|
+      # remove spaces or newlines
+      name = name.strip
+
+      Author.find_or_create_by!(name: name)
+    end
   end
 end
