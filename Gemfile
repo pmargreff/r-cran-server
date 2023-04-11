@@ -35,6 +35,10 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# to avoid warnings after rails 6.1.7.2 update - see https://github.com/ruby/net-imap/issues/16
+gem "net-http"
+gem "net-ftp"
+gem "uri", "0.10.0.2"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

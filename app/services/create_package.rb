@@ -58,6 +58,8 @@ class CreatePackage
   def find_or_create_dependencies!
     dependencies = @params["Depends"]
 
+    return [] if dependencies.nil? || dependencies.empty?
+
     dependencies.split(",").map do |dependency|
       # extracts dependency version
       name, version = dependency.split(/[()]+/)

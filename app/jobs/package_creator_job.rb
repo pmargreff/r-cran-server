@@ -4,6 +4,9 @@ class PackageCreatorJob < ApplicationJob
   def perform(server, partial_package)
     full_package = fetch_package_description(server, partial_package["Package"], partial_package["Version"])
     create_package(partial_package, full_package)
+
+  rescue OpenURI::HTTPError
+    logger.warn("Package #{partial_package["Package"]} not found!")
   end
 
   private

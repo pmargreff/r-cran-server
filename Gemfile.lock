@@ -98,6 +98,11 @@ GEM
     mini_portile2 (2.8.1)
     minitest (5.18.0)
     msgpack (1.7.0)
+    net-ftp (0.2.0)
+      net-protocol
+      time
+    net-http (0.3.2)
+      uri
     net-imap (0.3.4)
       date
       net-protocol
@@ -156,6 +161,8 @@ GEM
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
     thor (1.2.1)
+    time (0.2.2)
+      date
     timeout (0.3.2)
     treetop (1.6.12)
       polyglot (~> 0.3)
@@ -163,6 +170,7 @@ GEM
       treetop (>= 1.2.5)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    uri (0.10.0.2)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -174,12 +182,15 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
+  net-ftp
+  net-http
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   sidekiq
   treetop-dcf
   tzinfo-data
+  uri (= 0.10.0.2)
 
 RUBY VERSION
    ruby 2.7.6p219
