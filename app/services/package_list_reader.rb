@@ -16,10 +16,10 @@ class PackageListReader
   private
 
   def read_packages(path)
-    GzipReader.new().call(path)
+    GzipReader.new.call(path)
   end
 
   def parse_packages(content)
-    DcfReader.new().call(content)
+    DcfReader.new.call(content)
   end
 end

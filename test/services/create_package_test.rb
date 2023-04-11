@@ -25,7 +25,7 @@ class CreatePackageTest < ActiveSupport::TestCase
   end
 
   test "create a package with valid attributes" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert result.valid?
 
@@ -38,7 +38,7 @@ class CreatePackageTest < ActiveSupport::TestCase
   end
 
   test "license is created and associated with package" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert_equal License.count, 1
     license = License.last
@@ -47,7 +47,7 @@ class CreatePackageTest < ActiveSupport::TestCase
   end
 
   test "authors are created and associated with package" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert_equal result.authors.count, 2
     author_names = result.authors.map(&:name)
@@ -56,7 +56,7 @@ class CreatePackageTest < ActiveSupport::TestCase
   end
 
   test "dependencies are created and associated with package" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert_equal 3, result.dependencies.count
 
@@ -73,13 +73,13 @@ class CreatePackageTest < ActiveSupport::TestCase
   end
 
   test "r dependency is created and associated with package" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert_equal result.r_dependency_version, ">= 3.5.0"
   end
 
   test "version is created and associated with package" do
-    result = CreatePackage.new().call(@params)
+    result = CreatePackage.new.call(@params)
 
     assert_equal result.versions.count, 1
     version = PackageVersion.last

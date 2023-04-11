@@ -31,11 +31,11 @@ class FetchPackageDescription
   end
 
   def find_description(file_path)
-    TarFileReader.new().call(file_path, DESCRIPTION_FILE_NAME)
+    TarFileReader.new.call(file_path, DESCRIPTION_FILE_NAME)
   end
 
   def read_dcf(content)
-    DcfReader.new().call(content).first
+    DcfReader.new.call(content).first
   end
 
   # abstract temp file handling (copying, closing and deleting) so it does not leaks

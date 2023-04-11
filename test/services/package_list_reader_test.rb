@@ -6,7 +6,7 @@ class PackageListReaderTest < ActiveSupport::TestCase
   end
 
   test "reads package list from small_server" do
-    result = PackageListReader.new().call(@server)
+    result = PackageListReader.new.call(@server)
 
     assert_equal result.size, 3
 

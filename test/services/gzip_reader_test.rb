@@ -15,7 +15,7 @@ class GzipReaderTest < ActiveSupport::TestCase
   end
 
   test "read content from compressed file" do
-    result = GzipReader.new().call(@file_path)
+    result = GzipReader.new.call(@file_path)
 
     assert_equal result, @content
   end

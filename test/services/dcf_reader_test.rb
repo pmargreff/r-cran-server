@@ -22,7 +22,7 @@ EOF
   end
 
   test "parses a array of packages" do
-    result = DcfReader.new().call(@packages_content)
+    result = DcfReader.new.call(@packages_content)
 
     assert_equal result.size, 2
 
@@ -36,7 +36,7 @@ EOF
   end
 
   test "parses a package" do
-    result = DcfReader.new().call(@description_content)
+    result = DcfReader.new.call(@description_content)
 
     assert_equal result.size, 1
 

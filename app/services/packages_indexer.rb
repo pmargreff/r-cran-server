@@ -26,7 +26,7 @@ class PackagesIndexer
   end
 
   def read_packages_from_server
-    PackageListReader.new().call(@server)
+    PackageListReader.new.call(@server)
   end
 end
 
