@@ -7,7 +7,6 @@ class CreatePackages < ActiveRecord::Migration[7.0]
       t.string :maintainer
       t.string :dependencies
       t.datetime :publication_date
-      t.string :version
 
       t.references :license, index: true, foreign_key: true
 

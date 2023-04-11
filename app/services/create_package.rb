@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreatePackage
   attr_accessor :remote_package
 
@@ -9,12 +10,18 @@ class CreatePackage
       license = find_or_create_license!
       authors = find_or_create_authors!
 
-      create_package!(license: license, authors: authors)
+      package = create_package!(
+        authors: authors,
+        license: license
+      )
+
+      create_version!(package)
+
+      package
     end
   end
 
   private
-
 
   def create_package!(license:, authors:)
     Package.create!(
@@ -24,10 +31,13 @@ class CreatePackage
       maintainer:       @params["Maintainer"],
       dependencies:     @params["Depends"], #TODO: add imports
       publication_date: @params["Date/Publication"].to_datetime,
-      version:          @params["Version"],
       license:          license,
       authors:          authors
     )
+  end
+
+  def create_version!(package)
+    package.versions.create(version: @params["Version"])
   end
 
   def find_or_create_license!

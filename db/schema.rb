@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_10_205416) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_11_133137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_205416) do
     t.index ["name"], name: "index_licenses_on_name", unique: true
   end
 
+  create_table "package_versions", force: :cascade do |t|
+    t.string "version"
+    t.bigint "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_package_versions_on_package_id"
+  end
+
   create_table "packages", force: :cascade do |t|
     t.string "name"
     t.string "title"
@@ -35,7 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_10_205416) do
     t.string "maintainer"
     t.string "dependencies"
     t.datetime "publication_date"
-    t.string "version"
     t.bigint "license_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
