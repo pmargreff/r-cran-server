@@ -7,12 +7,14 @@ class CreatePackage
     @params = params
 
     ActiveRecord::Base.transaction do
-      license = find_or_create_license!
       authors = find_or_create_authors!
+      license = find_or_create_license!
+      dependencies = find_or_create_dependencies!
 
       package = create_package!(
         authors: authors,
-        license: license
+        license: license,
+        dependencies: dependencies
       )
 
       create_version!(package)
@@ -23,25 +25,21 @@ class CreatePackage
 
   private
 
-  def create_package!(license:, authors:)
+  def create_package!(license:, authors:, dependencies:)
     Package.create!(
       name:             @params["Package"],
       title:            @params["Title"],
       md5:              @params["MD5sum"],
       maintainer:       @params["Maintainer"],
-      dependencies:     @params["Depends"], #TODO: add imports
       publication_date: @params["Date/Publication"].to_datetime,
       license:          license,
-      authors:          authors
+      authors:          authors,
+      dependencies:     dependencies
     )
   end
 
   def create_version!(package)
     package.versions.create(version: @params["Version"])
-  end
-
-  def find_or_create_license!
-    License.find_or_create_by!(name: @params["License"])
   end
 
   def find_or_create_authors!
@@ -55,5 +53,22 @@ class CreatePackage
 
       Author.find_or_create_by!(name: name)
     end
+  end
+
+  def find_or_create_dependencies!
+    dependencies = @params["Depends"]
+
+    dependencies.split(",").map do |dependency|
+      # extracts dependency version
+      name, version = dependency.split(/[()]+/)
+      name = name.strip
+      version = version&.strip
+
+      Dependency.find_or_create_by!(name: name, version: version)
+    end
+  end
+
+  def find_or_create_license!
+    License.find_or_create_by!(name: @params["License"])
   end
 end

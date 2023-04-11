@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_11_133137) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_11_180520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_133137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_authors_on_name", unique: true
+  end
+
+  create_table "dependencies", force: :cascade do |t|
+    t.string "name"
+    t.string "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "version"], name: "index_dependencies_on_name_and_version", unique: true
   end
 
   create_table "licenses", force: :cascade do |t|
@@ -54,6 +62,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_133137) do
     t.bigint "author_id"
     t.index ["author_id"], name: "index_packages_authors_on_author_id"
     t.index ["package_id"], name: "index_packages_authors_on_package_id"
+  end
+
+  create_table "packages_dependencies", id: false, force: :cascade do |t|
+    t.bigint "package_id"
+    t.bigint "dependency_id"
+    t.index ["dependency_id"], name: "index_packages_dependencies_on_dependency_id"
+    t.index ["package_id"], name: "index_packages_dependencies_on_package_id"
   end
 
   add_foreign_key "packages", "licenses"

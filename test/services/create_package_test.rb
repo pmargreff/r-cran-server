@@ -15,7 +15,7 @@ class CreatePackageTest < ActiveSupport::TestCase
       "Title"=>"Conditional Aalen-Johansen Estimation",
       "Maintainer"=>"Martin Bladt <martinbladt@math.ku.dk>",
       "Encoding"=>"UTF-8",
-      "Depends" => "R (>= 3.6.0)",
+      "Depends" => "R (>= 3.5.0), shinyBS, seriation (>= 1.3.0)",
       "Imports" => "magrittr, dplyr, doParallel, foreach",
       "Packaged"=>"2023-02-28 18:01:12 UTC; martinbladt",
       "Author"=>"#{@author_1} [aut, cre], #{@author_2}  [aut]",
@@ -34,9 +34,7 @@ class CreatePackageTest < ActiveSupport::TestCase
     assert_equal @params["Title"], result.title
     assert_equal @params["MD5sum"], result.md5
     assert_equal @params["Maintainer"], result.maintainer
-    assert_equal @params["Depends"], result.dependencies
     assert_equal @params["Date/Publication"].to_datetime, result.publication_date
-    assert_equal @params["Version"], result.version
   end
 
   test "license is created and associated with package" do
@@ -55,5 +53,31 @@ class CreatePackageTest < ActiveSupport::TestCase
     author_names = result.authors.map(&:name)
     assert_includes author_names, @author_1
     assert_includes author_names, @author_2
+  end
+
+  test "dependencies are created and associated with package" do
+    result = CreatePackage.new().call(@params)
+
+    assert_equal 3, result.dependencies.count
+
+    dependency_names = result.dependencies.map(&:name)
+    dependency_versions = result.dependencies.map(&:version)
+
+    assert_includes dependency_names, "R"
+    assert_includes dependency_names, "shinyBS"
+    assert_includes dependency_names, "seriation"
+
+    assert_includes dependency_versions, ">= 3.5.0"
+    assert_includes dependency_versions, nil
+    assert_includes dependency_versions, ">= 1.3.0"
+  end
+
+  test "version is created and associated with package" do
+    result = CreatePackage.new().call(@params)
+
+    assert_equal result.versions.count, 1
+    version = PackageVersion.last
+    assert_equal version, result.versions.first
+    assert_equal version, result.current_version
   end
 end
