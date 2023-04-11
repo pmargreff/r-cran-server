@@ -10,5 +10,16 @@ class Package < ApplicationRecord
   has_many :dependencies, through: :packages_dependencies
 
   has_many :versions, class_name: "PackageVersion"
-  has_one :current_version, -> { order(created_at: :desc) }, class_name: "PackageVersion"
+
+  has_one :current_version,
+    -> { order(created_at: :desc) },
+    class_name: "PackageVersion"
+
+  def r_dependency
+    dependencies.where("name ILIKE 'R%'").first
+  end
+
+  def r_dependency_version
+    r_dependency&.version
+  end
 end

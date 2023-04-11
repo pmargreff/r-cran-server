@@ -72,6 +72,12 @@ class CreatePackageTest < ActiveSupport::TestCase
     assert_includes dependency_versions, ">= 1.3.0"
   end
 
+  test "r dependency is created and associated with package" do
+    result = CreatePackage.new().call(@params)
+
+    assert_equal result.r_dependency_version, ">= 3.5.0"
+  end
+
   test "version is created and associated with package" do
     result = CreatePackage.new().call(@params)
 
