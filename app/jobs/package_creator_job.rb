@@ -2,10 +2,18 @@ class PackageCreatorJob < ApplicationJob
   queue_as :default
 
   def perform(server, partial_package)
-    full_package = fetch_package_description(server, partial_package["Package"], partial_package["Version"])
+    name = partial_package["Package"]
+    version = partial_package["Version"]
+
+    full_package = fetch_package_description(server, name, version)
+
     create_package(partial_package, full_package)
+
+  # does not retry on unrecoverable errors
   rescue OpenURI::HTTPError
-    logger.warn("Package #{partial_package["Package"]} not found!")
+    logger.warn("Package #{name} not found!")
+  rescue ActiveRecord::StatementInvalid
+    logger.warn("Package #{name} malformed!")
   end
 
   private

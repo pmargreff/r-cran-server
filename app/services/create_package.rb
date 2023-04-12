@@ -43,8 +43,8 @@ class CreatePackage
   end
 
   def find_or_create_authors!
-    # sanitizes from author roles
-    # ex: alice [aur, cre]
+    # sanitizes from roles
+    # ex: 'alice [aur, cre]' => 'alice'
     authors = @params["Author"].gsub(/\[.*?\]/, "")
 
     authors.split(",").map do |name|
@@ -61,7 +61,8 @@ class CreatePackage
     return [] if dependencies.nil? || dependencies.empty?
 
     dependencies.split(",").map do |dependency|
-      # extracts dependency version
+      # extracts name and version and remove brackets
+      # ex: 'R (<= 3.7)' => ['R', '<= 3.7']
       name, version = dependency.split(/[()]+/)
       name = name.strip
       version = version&.strip
