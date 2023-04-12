@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:14.5-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - /var/run/postgresql:/var/run/postgresql
+  redis:
+    image: redis:7.0.5
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis:/data
