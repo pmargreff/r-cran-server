@@ -10,7 +10,9 @@ class PackagesIndexer
     # If the md5 hash does not exist but the package exists, update it.
     # If the package does not exists create it.
     remote_packages.each do |remote_package|
+      #TODO: add package update in case it exists
       next if package_exists?(remote_package)
+
       enqueue_package_create(remote_package)
     end
   end

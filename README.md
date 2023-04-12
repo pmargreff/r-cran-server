@@ -1,3 +1,7 @@
+## r-cran-indexer
+
+Indexes servers
+
 ### Prerequisites
 
 The setups steps expect following tools installed on the system.
@@ -67,6 +71,30 @@ cat log/development.log | grep "malformed"
 
 ### Architecture and models
 
----
+The problem was mapped to a Rails application by creating models to represent the required package information. These models include `Package`, `Author`, `License`, `Dependency`, and `PackageVersion`. Following a diagram showing more about how the problem was structured:
+
+<img src="schema_diagram.png" width="600" height="400">
+
+After reading the `PACKAGE.gz` a job for each package is created. The job is responsible for getting the missing fields from the `package.tar.gz` and them consolidate the package.
+
+`PackagesIndexer` is the entrypoint, following that class should help to understand how these things materialize together.
+
+### Known bottlenecks
+
+- The syncronization process depends on cran server network. Once the server has considerable limits the biggest packages can take several minutes to sync. Because of that the very first sync can take anything from 5 to 30 minutes to finish.
+
+### Incomplete
+
+There are some incomplete parts that were not done duo time limit:
+
+- New packages are added on new runs but existing ones are not updated.
+- Reading the manifest could have been done lazy (streams like). Avoiding loading everything at memory to then start firing jobs.
 
 ### Potential areas of improvement
+
+Things that could use from more attention:
+
+- Validate relation straight from models
+- Add a proper data factory (a.k.a: `factorybot`)
+- A proper way to see packages already sync, today `rails c` is the way to go.
+- Improve handling for job errors, current state ignore the ones that are not recoverable but doesn't handle some of them.
