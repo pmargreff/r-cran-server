@@ -13,7 +13,7 @@ gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 
 #Parses Debian Control Files
-gem "treetop-dcf"
+gem "debian-control-parser"
 
 # Background jobs with no concurrency limits yay
 gem 'sidekiq'

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'open-uri'
+require 'debian_control_parser'
 
 class FetchPackageDescription
   attr_accessor :server_uri, :name, :version
@@ -34,8 +35,14 @@ class FetchPackageDescription
     TarFileReader.new.call(file_path, DESCRIPTION_FILE_NAME)
   end
 
-  def read_dcf(content)
-    DcfReader.new.call(content).first
+  def read_dcf(data)
+    fields = {}
+
+    DebianControlParser.new(data).fields do |name, value|
+      fields[name] = value
+    end
+
+    fields
   end
 
   # abstract temp file handling (copying, closing and deleting) so it does not leaks

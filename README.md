@@ -81,14 +81,13 @@ After reading the `PACKAGE.gz` a job for each package is created. The job is res
 
 ### Known bottlenecks
 
-- The syncronization process depends on cran server network. Once the server has considerable limits the biggest packages can take several minutes to sync. Because of that the very first sync can take anything from 5 to 30 minutes to finish.
+- The syncronization process depends on cran server network. Once the server has considerable limits the biggest packages can take several minutes to sync. From tests it could ingest around 1000 packages per minute. That means a server can take up to 20 minutes to be fully synchronized.
 
 ### Incomplete
 
 There are some incomplete parts that were not done duo time limit:
 
 - New packages are added on new runs but existing ones are not updated.
-- Reading the manifest could have been done lazy (streams like). Avoiding loading everything at memory to then start firing jobs.
 
 ### Potential areas of improvement
 

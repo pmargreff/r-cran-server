@@ -9,17 +9,12 @@ class PackageListReader
     @server = server
 
     packages_path = @server + PACKAGES_FILE
-    content = read_packages(packages_path)
-    parse_packages(content)
+    read_packages(packages_path)
   end
 
   private
 
   def read_packages(path)
     GzipReader.new.call(path)
-  end
-
-  def parse_packages(content)
-    DcfReader.new.call(content)
   end
 end

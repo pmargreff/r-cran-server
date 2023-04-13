@@ -73,6 +73,7 @@ GEM
     connection_pool (2.4.0)
     crass (1.0.6)
     date (3.3.3)
+    debian-control-parser (1.0)
     debug (1.7.2)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -118,7 +119,6 @@ GEM
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     pg (1.4.6)
-    polyglot (0.3.5)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.2)
@@ -165,10 +165,6 @@ GEM
     time (0.2.2)
       date
     timeout (0.3.2)
-    treetop (1.6.12)
-      polyglot (~> 0.3)
-    treetop-dcf (0.2.1)
-      treetop (>= 1.2.5)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uri (0.10.0.2)
@@ -182,6 +178,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  debian-control-parser
   debug
   foreman
   net-ftp
@@ -190,7 +187,6 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   sidekiq
-  treetop-dcf
   tzinfo-data
   uri (= 0.10.0.2)
 
